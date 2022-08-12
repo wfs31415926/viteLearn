@@ -1,0 +1,26 @@
+import {defineConfig} from "vite";
+import viteBaseConfig from "./vite.base.config";
+import viteProdConfig from "./vite.prod.config";
+import viteDevConfig from "./vite.dev.config";
+import stringDefault from "lodash-es/string.default";
+
+//策略模式
+const envResolver = {
+    "build": () => {
+        console.log("生产环境");
+        // ({...viteBaseConfig, ...viteProdConfig})
+        return Object.assign({}, viteBaseConfig, viteProdConfig)
+        // Object.assign(viteBaseConfig, viteProdConfig)
+    },
+    "serve": () => {
+        console.log("开发环境");
+        return Object.assign({}, viteBaseConfig, viteDevConfig)//将多个配置合并到一起
+    }
+}
+export default defineConfig(({command}) => {
+    // console.log("command", command)
+    // console.log("process",process.env)
+    // console.log("process",process.cwd())
+    // const env =loadEnv(mode,process.cwd())
+    return envResolver[command]();
+})
