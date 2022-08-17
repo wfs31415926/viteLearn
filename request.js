@@ -1,0 +1,1 @@
+console.log("import.mate.env///", import.meta.env);
